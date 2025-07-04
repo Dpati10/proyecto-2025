@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Historial de Pedidos</title>
+</head>
+<body>
+    <h2>Historial de Pedidos</h2>
+    <ul>
+        <li th:each="pedido : ${pedidos}">
+            Pedido #<span th:text="${pedido.id}"></span> - 
+            <span th:text="${pedido.fecha}"></span> - 
+            <span th:text="${pedido.direccionEnvio}"></span>
+        </li>
+    </ul>
+</body>
+</html>

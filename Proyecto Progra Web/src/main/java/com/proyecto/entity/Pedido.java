@@ -47,5 +47,9 @@ public class Pedido {
     public void setDetalles(List<DetallePedido> detalles) {
         this.detalles = detalles;
     }
+
+    public String getDetalleResumen() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 

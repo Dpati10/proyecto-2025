@@ -65,6 +65,12 @@
             <artifactId>reactor-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>net.xdob.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>5.3.41</version>
+            <type>jar</type>
+        </dependency>
     </dependencies>
 
     <build>

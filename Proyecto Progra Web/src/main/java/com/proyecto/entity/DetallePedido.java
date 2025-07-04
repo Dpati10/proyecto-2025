@@ -57,5 +57,9 @@ public class DetallePedido {
     public void setPedido(Pedido pedido) {
         this.pedido = pedido;
     }
+
+    public void setPrecio(double precio) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }
 
