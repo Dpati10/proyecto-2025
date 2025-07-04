@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Registro</title>
+</head>
+<body>
+<h2>Registro de Cliente</h2>
+
+<form th:action="@{/registro}" th:object="${cliente}" method="post">
+    <p>Nombre: <input type="text" th:field="*{nombre}" required/></p>
+    <p>Correo: <input type="email" th:field="*{correo}" required/></p>
+    <p>Contraseña: <input type="password" th:field="*{contrasena}" required/></p>
+    <button type="submit">Registrarse</button>
+</form>
+
+<div th:if="${error}" style="color: red;">[[${error}]]</div>
+<div th:if="${param.exito}" style="color: green;">¡Registro exitoso!</div>
+</body>
+</html>
