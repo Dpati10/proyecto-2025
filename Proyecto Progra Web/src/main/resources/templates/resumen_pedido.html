@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<!--
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
+-->
+<html>
+    <head>
+        <title>Resumen del Pedido</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    </head>
+    <body>
+
+        <h1>Resumen del Pedido</h1>
+
+        <p th:text="'Pedido confirmado con éxito el día: ' + ${pedido.fecha}"></p>
+        <p><strong>Dirección de envío:</strong> <span th:text="${pedido.direccionEnvio}"></span></p>
+
+        <table border="1" cellpadding="5" cellspacing="0">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Precio Unitario</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="detalle : ${pedido.detalles}">
+                    <td th:text="${detalle.producto.nombre}"></td>
+                    <td th:text="${#numbers.formatDecimal(detalle.precioUnitario, 1, 'COMMA', 2, 'POINT')}"></td>
+                    <td th:text="${detalle.cantidad}"></td>
+                    <td th:text="${#numbers.formatDecimal(detalle.precioUnitario * detalle.cantidad, 1, 'COMMA', 2, 'POINT')}"></td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p>
+            <strong>Total: </strong>
+            <span th:text="${#numbers.formatDecimal(#lists.sum(pedido.detalles.^[precioUnitario * cantidad]), 1, 'COMMA', 2, 'POINT')}">0.00</span>
+        </p>
+
+        <a href="/productos">Volver a productos</a>
+
+    </body>
+</html>
