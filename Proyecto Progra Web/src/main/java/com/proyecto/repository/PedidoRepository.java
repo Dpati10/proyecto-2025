@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface PedidoRepository extends JpaRepository<Pedido, Long> {
     
-    // Devuelve todos los pedidos realizados por un cliente específico
+    
     List<Pedido> findByCliente(Cliente cliente);
 }

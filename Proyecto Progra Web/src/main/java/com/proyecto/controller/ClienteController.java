@@ -13,12 +13,10 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/registro")
-    public String mostrarFormularioRegistro(Model model) {
-        model.addAttribute("cliente", new Cliente());
-        return "registro";
+     @GetMapping("/registro")
+    public String mostrarRegistro() {
+        return "registro"; // sin .html
     }
-
     @PostMapping("/registro")
     public String registrarCliente(@ModelAttribute Cliente cliente, Model model) {
         if (clienteService.correoExistente(cliente.getCorreo())) {
@@ -28,4 +26,4 @@ public class ClienteController {
         clienteService.registrarCliente(cliente);
         return "redirect:/registro?exito";
     }
-}
+} 
