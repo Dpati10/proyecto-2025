@@ -3,6 +3,7 @@ package com.proyecto.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 import java.util.List;
+import com.proyecto.domain.Cliente;
 
 @Entity
 @Table(name = "pedidos")
@@ -16,9 +17,14 @@ public class Pedido {
 
     private LocalDate fecha;
 
+    @ManyToOne
+    @JoinColumn(name = "id_cliente") // ← Asegúrate que sea el nombre real de tu columna en la base
+    private Cliente cliente;
+
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
     private List<DetallePedido> detalles;
 
+    // Getters y setters
 
     public Long getId() {
         return id;
@@ -48,8 +54,15 @@ public class Pedido {
         this.detalles = detalles;
     }
 
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
     public String getDetalleResumen() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
-
