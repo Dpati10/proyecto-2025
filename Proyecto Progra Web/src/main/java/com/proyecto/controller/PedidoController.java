@@ -1,5 +1,6 @@
 package com.proyecto.controller;
 
+import com.proyecto.domain.Cliente;
 import com.proyecto.entity.DetallePedido;
 import com.proyecto.entity.Pedido;
 import com.proyecto.model.CarritoItem;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/pedido")
-@SessionAttributes("carrito")
+@SessionAttributes({"carrito", "clienteAutenticado"})
 public class PedidoController {
 
     @Autowired
@@ -29,12 +30,14 @@ public class PedidoController {
     @PostMapping("/confirmar")
     public String confirmarPedido(@RequestParam String direccion,
                                   @ModelAttribute("carrito") List<CarritoItem> carrito,
+                                  @ModelAttribute("clienteAutenticado") Cliente cliente,
                                   Model model,
                                   SessionStatus status) {
 
         Pedido pedido = new Pedido();
         pedido.setDireccionEnvio(direccion);
         pedido.setFecha(LocalDate.now());
+        pedido.setCliente(cliente);
 
         List<DetallePedido> detalles = new ArrayList<>();
         for (CarritoItem item : carrito) {
@@ -49,9 +52,8 @@ public class PedidoController {
         pedido.setDetalles(detalles);
         pedidoRepository.save(pedido);
 
-        // Envío de correo simulado (no real)
         try {
-            emailService.enviarConfirmacion("cliente@ejemplo.com", pedido);
+            emailService.enviarConfirmacion(cliente.getCorreo(), pedido);
         } catch (Exception e) {
             System.out.println("Error simulado al enviar el correo: " + e.getMessage());
         }
@@ -62,8 +64,8 @@ public class PedidoController {
     }
 
     @GetMapping("/historial")
-    public String verHistorial(Model model) {
-        List<Pedido> pedidos = pedidoRepository.findAll();
+    public String verHistorial(Model model, @ModelAttribute("clienteAutenticado") Cliente cliente) {
+        List<Pedido> pedidos = pedidoRepository.findByCliente(cliente);
         model.addAttribute("pedidos", pedidos);
         return "historial";
     }

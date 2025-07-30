@@ -14,10 +14,10 @@ public class ClienteController {
     private ClienteService clienteService;
 
     @GetMapping("/registro")
-public String mostrarRegistro(Model model) {
-    model.addAttribute("cliente", new Cliente()); // 
-    return "registro";
-}
+    public String mostrarRegistro(Model model) {
+        model.addAttribute("cliente", new Cliente()); 
+        return "registro";
+    }
 
     @PostMapping("/registro")
     public String registrarCliente(@ModelAttribute Cliente cliente, Model model) {
@@ -28,4 +28,4 @@ public String mostrarRegistro(Model model) {
         clienteService.registrarCliente(cliente);
         return "redirect:/registro?exito";
     }
-} 
+}

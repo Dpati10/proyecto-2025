@@ -18,7 +18,7 @@ public class Pedido {
     private LocalDate fecha;
 
     @ManyToOne
-    @JoinColumn(name = "id_cliente") // ← Asegúrate que sea el nombre real de tu columna en la base
+    @JoinColumn(name = "id_cliente")
     private Cliente cliente;
 
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -60,9 +60,5 @@ public class Pedido {
 
     public void setCliente(Cliente cliente) {
         this.cliente = cliente;
-    }
-
-    public String getDetalleResumen() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

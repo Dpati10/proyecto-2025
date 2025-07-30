@@ -1,9 +1,6 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.proyecto.service;
 
+import com.proyecto.entity.DetallePedido;
 import com.proyecto.entity.Pedido;
 import org.springframework.stereotype.Service;
 
@@ -11,13 +8,22 @@ import org.springframework.stereotype.Service;
 public class EmailService {
 
     public void enviarConfirmacion(String destinatario, Pedido pedido) {
-        // Simulación de envío de correo (solo imprime en consola)
         System.out.println("Simulando envío de correo a: " + destinatario);
         System.out.println("Asunto: Confirmación de Pedido #" + pedido.getId());
-        System.out.println("Contenido:\nGracias por tu compra.\n\n"
-                + "Número de pedido: " + pedido.getId() + "\n"
-                + "Dirección: " + pedido.getDireccionEnvio() + "\n"
-                + "Fecha: " + pedido.getFecha() + "\n\n"
-                + "Detalle del pedido:\n" + pedido.getDetalleResumen());
+
+        StringBuilder cuerpo = new StringBuilder();
+        cuerpo.append("Gracias por tu compra.\n\n");
+        cuerpo.append("Número de pedido: ").append(pedido.getId()).append("\n");
+        cuerpo.append("Dirección: ").append(pedido.getDireccionEnvio()).append("\n");
+        cuerpo.append("Fecha: ").append(pedido.getFecha()).append("\n\n");
+        cuerpo.append("Detalle del pedido:\n");
+
+        for (DetallePedido detalle : pedido.getDetalles()) {
+            cuerpo.append("- ").append(detalle.getProducto().getNombre())
+                  .append(" x").append(detalle.getCantidad())
+                  .append(" ₡").append(detalle.getPrecioUnitario()).append("\n");
+        }
+
+        System.out.println("Contenido:\n" + cuerpo);
     }
 }
