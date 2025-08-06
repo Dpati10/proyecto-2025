@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Confirmación de Pedido</title>
+</head>
+<body>
+    <h1>¡Gracias por tu compra!</h1>
+    <p>Tu número de pedido es: <strong th:text="${pedido.id}"></strong></p>
+    <p>Fecha: <span th:text="${pedido.fecha}"></span></p>
+    <p>Dirección de envío: <span th:text="${pedido.direccionEnvio}"></span></p>
+</body>
+</html>

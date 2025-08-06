@@ -23,8 +23,8 @@ public class ClienteController {
     // ------------------- Registro -------------------
 
     @GetMapping("/registro")
-    public String mostrarFormularioRegistro(Model model) {
-        model.addAttribute("cliente", new Cliente());
+    public String mostrarRegistro(Model model) {
+        model.addAttribute("cliente", new Cliente()); 
         return "registro";
     }
 

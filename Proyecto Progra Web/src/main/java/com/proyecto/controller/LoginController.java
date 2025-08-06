@@ -1,3 +1,4 @@
+package com.proyecto.controller;
 
 import com.proyecto.domain.Cliente;
 import com.proyecto.service.ClienteService;

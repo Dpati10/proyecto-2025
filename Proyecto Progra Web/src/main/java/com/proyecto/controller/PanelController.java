@@ -25,4 +25,3 @@ public class PanelController {
         return "panel";
     }
 }
-

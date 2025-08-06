@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Compras</title>
+</head>
+<body>
+    <h1>Historial de Compras</h1>
+
+    <div th:if="${pedidos.size() == 0}">
+        <p>No has realizado ningún pedido aún.</p>
+    </div>
+
+    <div th:if="${pedidos.size() > 0}">
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>ID Pedido</th>
+                    <th>Fecha</th>
+                    <th>Dirección</th>
+                    <th>Productos</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="pedido : ${pedidos}">
+                    <td th:text="${pedido.id}"></td>
+                    <td th:text="${pedido.fecha}"></td>
+                    <td th:text="${pedido.direccionEnvio}"></td>
+                    <td>
+                        <ul>
+                            <li th:each="detalle : ${pedido.detalles}"
+                                th:text="${detalle.producto.nombre} + ' x' + ${detalle.cantidad} + ' ₡' + ${detalle.precio}"></li>
+                        </ul>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <br>
+    <a href="/" style="text-decoration:none;">← Volver al inicio</a>
+</body>
+</html>
