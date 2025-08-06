@@ -30,6 +30,8 @@
         </properties>
     </action>
     <action>
+        <actionName>profile</actionName>
+        <packagings>
             <packaging>jar</packaging>
         </packagings>
         <goals>
