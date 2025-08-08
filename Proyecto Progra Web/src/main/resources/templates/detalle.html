@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <title>Detalle del Pedido</title>
+  <link rel="stylesheet" th:href="@{/css/orders.css}">
+</head>
+<body>
+  <div class="container">
+    <h1>Pedido <span th:text="${pedido.numeroPedido}">P-0000</span></h1>
+    <p>Fecha: <span th:text="${#temporals.format(pedido.fecha, 'dd/MM/yyyy HH:mm')}">01/01/2025</span></p>
+    <p>Estado: <span th:text="${pedido.estado}">CONFIRMADO</span></p>
+
+    <h3>Productos</h3>
+    <table class="orders-table">
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Cantidad</th>
+          <th>Precio unitario</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="d : ${pedido.detalles}">
+          <td th:text="${d.nombreProducto}">Producto</td>
+          <td th:text="${d.cantidad}">1</td>
+          <td>₡<span th:text="${#numbers.formatDecimal(d.precioUnitario, 0, 'COMMA', 2, 'POINT')}">0.00</span></td>
+          <td>₡<span th:text="${#numbers.formatDecimal(d.precioUnitario * d.cantidad, 0, 'COMMA', 2, 'POINT')}">0.00</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="total">Total: ₡<span th:text="${#numbers.formatDecimal(pedido.total, 0, 'COMMA', 2, 'POINT')}">0.00</span></p>
+
+    <a th:href="@{/pedidos/historial}" class="btn">Volver al historial</a>
+  </div>
+</body>
+</html>

@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Confirmación de Pedido</title>
+  <meta charset="UTF-8"/>
+  <title>Confirmación de Pedido</title>
+  <link rel="stylesheet" th:href="@{/css/orders.css}">
 </head>
-<body>
-    <h1>¡Gracias por tu compra!</h1>
-    <p>Tu número de pedido es: <strong th:text="${pedido.id}"></strong></p>
-    <p>Fecha: <span th:text="${pedido.fecha}"></span></p>
-    <p>Dirección de envío: <span th:text="${pedido.direccionEnvio}"></span></p>
+<body class="page">
+  <div class="container">
+    <div class="card">
+      <h1 th:text="${mensaje}">¡Gracias! Tu pedido se procesó correctamente.</h1>
+      <p>Número de pedido: <strong th:text="${numeroPedido}">P-000000</strong></p>
+
+      <h3>Resumen</h3>
+      <ul>
+        <li th:each="d : ${pedido.detalles}">
+          <span th:text="${d.cantidad} + ' x ' + ${d.nombreProducto}"></span>
+          — ₡<span th:text="${#numbers.formatDecimal(d.precioUnitario, 0, 'COMMA', 2, 'POINT')}">0.00</span>
+        </li>
+      </ul>
+
+      <p>Total: ₡<span th:text="${#numbers.formatDecimal(pedido.total, 0, 'COMMA', 2, 'POINT')}">0.00</span></p>
+
+      <a th:href="@{/usuario/pedidos}" class="btn">Ver historial de pedidos</a>
+    </div>
+  </div>
 </body>
 </html>

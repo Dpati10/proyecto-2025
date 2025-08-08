@@ -1,43 +1,43 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Historial de Compras</title>
+  <meta charset="UTF-8"/>
+  <title>Historial de Pedidos</title>
+  <link rel="stylesheet" th:href="@{/css/orders.css}">
 </head>
-<body>
-    <h1>Historial de Compras</h1>
+<body class="page">
+  <div class="container">
+    <h1>Historial de Pedidos</h1>
 
-    <div th:if="${pedidos.size() == 0}">
-        <p>No has realizado ningún pedido aún.</p>
+    <div th:if="${#lists.isEmpty(pedidos)}">
+      <p>No tienes pedidos anteriores.</p>
+      <a th:href="@{/}" class="btn">Ir a la tienda</a>
     </div>
 
-    <div th:if="${pedidos.size() > 0}">
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID Pedido</th>
-                    <th>Fecha</th>
-                    <th>Dirección</th>
-                    <th>Productos</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="pedido : ${pedidos}">
-                    <td th:text="${pedido.id}"></td>
-                    <td th:text="${pedido.fecha}"></td>
-                    <td th:text="${pedido.direccionEnvio}"></td>
-                    <td>
-                        <ul>
-                            <li th:each="detalle : ${pedido.detalles}"
-                                th:text="${detalle.producto.nombre} + ' x' + ${detalle.cantidad} + ' ₡' + ${detalle.precio}"></li>
-                        </ul>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-    </div>
-
-    <br>
-    <a href="/" style="text-decoration:none;">← Volver al inicio</a>
+    <table class="orders-table" th:if="${!#lists.isEmpty(pedidos)}">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Número</th>
+          <th>Productos</th>
+          <th>Total</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="p : ${pedidos}">
+          <td th:text="${#temporals.format(p.fecha, 'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+          <td th:text="${p.numeroPedido}">P-12345</td>
+          <td>
+            <ul>
+              <li th:each="d : ${p.detalles}" th:text="${d.cantidad} + ' x ' + ${d.nombreProducto}">1 x Producto</li>
+            </ul>
+          </td>
+          <td>₡<span th:text="${#numbers.formatDecimal(p.total, 0, 'COMMA', 2, 'POINT')}">0.00</span></td>
+          <td><a th:href="@{'/pedidos/detalle/' + ${p.id}}" class="btn small">Ver detalle</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

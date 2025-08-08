@@ -1,9 +1,9 @@
 package com.proyecto.entity;
 
 import jakarta.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
-import com.proyecto.domain.Cliente;
 
 @Entity
 @Table(name = "pedidos")
@@ -13,52 +13,47 @@ public class Pedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String direccionEnvio;
+    // Si tu proyecto utiliza una entidad Usuario, puedes reemplazar este campo por @ManyToOne Usuario usuario;
+    @Column(name = "cliente_email", nullable = false)
+    private String clienteEmail;
 
-    private LocalDate fecha;
+    @Column(name = "numero_pedido", nullable = false, unique = true)
+    private String numeroPedido;
 
-    @ManyToOne
-    @JoinColumn(name = "id_cliente")
-    private Cliente cliente;
+    @Column(name = "fecha", nullable = false)
+    private LocalDateTime fecha;
 
-    @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
-    private List<DetallePedido> detalles;
+    @Column(name = "total", nullable = false)
+    private Double total;
 
-    // Getters y setters
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "pedido_id")
+    private List<DetallePedido> detalles = new ArrayList<>();
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "estado")
+    private String estado;
 
-    public String getDireccionEnvio() {
-        return direccionEnvio;
-    }
+    public Pedido() {}
 
-    public void setDireccionEnvio(String direccionEnvio) {
-        this.direccionEnvio = direccionEnvio;
-    }
+    // Getters / Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public LocalDate getFecha() {
-        return fecha;
-    }
+    public String getClienteEmail() { return clienteEmail; }
+    public void setClienteEmail(String clienteEmail) { this.clienteEmail = clienteEmail; }
 
-    public void setFecha(LocalDate fecha) {
-        this.fecha = fecha;
-    }
+    public String getNumeroPedido() { return numeroPedido; }
+    public void setNumeroPedido(String numeroPedido) { this.numeroPedido = numeroPedido; }
 
-    public List<DetallePedido> getDetalles() {
-        return detalles;
-    }
+    public LocalDateTime getFecha() { return fecha; }
+    public void setFecha(LocalDateTime fecha) { this.fecha = fecha; }
 
-    public void setDetalles(List<DetallePedido> detalles) {
-        this.detalles = detalles;
-    }
+    public Double getTotal() { return total; }
+    public void setTotal(Double total) { this.total = total; }
 
-    public Cliente getCliente() {
-        return cliente;
-    }
+    public List<DetallePedido> getDetalles() { return detalles; }
+    public void setDetalles(List<DetallePedido> detalles) { this.detalles = detalles; }
 
-    public void setCliente(Cliente cliente) {
-        this.cliente = cliente;
-    }
+    public String getEstado() { return estado; }
+    public void setEstado(String estado) { this.estado = estado; }
 }
