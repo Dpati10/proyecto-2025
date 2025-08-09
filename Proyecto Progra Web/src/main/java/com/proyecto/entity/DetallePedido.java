@@ -10,56 +10,39 @@ public class DetallePedido {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    private Producto producto;
+    @Column(name = "nombre_producto")
+    private String nombreProducto;
 
-    private int cantidad;
+    @Column(name = "cantidad")
+    private Integer cantidad;
 
-    private double precioUnitario;
+    @Column(name = "precio_unitario")
+    private Double precioUnitario;
 
-    @ManyToOne
-    @JoinColumn(name = "pedido_id")
-    private Pedido pedido;
+    public DetallePedido() {}
 
- 
-    public Long getId() {
-        return id;
-    }
-
-    public Producto getProducto() {
-        return producto;
-    }
-
-    public void setProducto(Producto producto) {
-        this.producto = producto;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
+    public DetallePedido(String nombreProducto, Integer cantidad, Double precioUnitario) {
+        this.nombreProducto = nombreProducto;
         this.cantidad = cantidad;
-    }
-
-    public double getPrecioUnitario() {
-        return precioUnitario;
-    }
-
-    public void setPrecioUnitario(double precioUnitario) {
         this.precioUnitario = precioUnitario;
     }
 
-    public Pedido getPedido() {
-        return pedido;
-    }
+    // Getters / Setters
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public void setPedido(Pedido pedido) {
-        this.pedido = pedido;
-    }
+    public String getNombreProducto() { return nombreProducto; }
+    public void setNombreProducto(String nombreProducto) { this.nombreProducto = nombreProducto; }
 
-    public void setPrecio(double precio) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Integer getCantidad() { return cantidad; }
+    public void setCantidad(Integer cantidad) { this.cantidad = cantidad; }
+
+    public Double getPrecioUnitario() { return precioUnitario; }
+    public void setPrecioUnitario(Double precioUnitario) { this.precioUnitario = precioUnitario; }
+
+    public Double getSubtotal() {
+        return (precioUnitario == null || cantidad == null) ? 0.0 : precioUnitario * cantidad;
     }
 }
+
 
