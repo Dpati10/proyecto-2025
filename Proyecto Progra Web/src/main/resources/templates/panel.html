@@ -17,6 +17,7 @@
         </nav>
 
         <div class="container mt-5">
+            <!-- Aquí corregimos para usar ${cliente} -->
             <h2 class="mb-4">Bienvenido, <span th:text="${cliente.nombre}"></span></h2>
 
             <div class="card">
@@ -40,25 +41,3 @@
                                 <td th:text="${pedido.direccionEnvio}"></td>
                                 <td>
                                     <ul class="mb-0">
-                                        <li th:each="detalle : ${pedido.detalles}">
-                                            <span th:text="${detalle.producto.nombre}"></span>
-                                            - Cantidad: <span th:text="${detalle.cantidad}"></span>
-                                        </li>
-                                    </ul>
-                                </td>
-                            </tr>
-                            <tr th:if="${pedidos.isEmpty()}">
-                                <td colspan="4" class="text-center text-muted">No tienes pedidos registrados.</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-
-        <footer class="text-center mt-5 text-muted">
-            © 2025 Mi Tienda - Proyecto Final
-        </footer>
-
-    </body>
-</html>

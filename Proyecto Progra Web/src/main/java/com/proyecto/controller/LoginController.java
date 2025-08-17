@@ -12,7 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import java.util.Optional;
 
 @Controller
-@SessionAttributes("clienteAutenticado")
+@SessionAttributes("cliente")   // ahora usamos "cliente" en vez de "clienteAutenticado"
 public class LoginController {
 
     @Autowired
@@ -33,11 +33,9 @@ public class LoginController {
         if (cliente.isPresent()) {
             Cliente clienteAutenticado = cliente.get();
 
-            // Guardamos el objeto completo en la sesión para usar en vistas
-            model.addAttribute("clienteAutenticado", clienteAutenticado);
-
-            // También guardamos solo el ID en sesión (útil si accedemos desde otros controladores)
-            session.setAttribute("clienteId", clienteAutenticado.getId());
+            // Guardamos el objeto en la sesión con el nombre "cliente"
+            model.addAttribute("cliente", clienteAutenticado);
+            session.setAttribute("cliente", clienteAutenticado);
 
             return "redirect:/panel";  // Redirige al panel del cliente
         } else {
@@ -50,7 +48,7 @@ public class LoginController {
     @GetMapping("/logout")
     public String cerrarSesion(SessionStatus status, HttpSession session) {
         status.setComplete();           // Limpia los atributos @SessionAttributes
-        session.invalidate();           // Invalida toda la sesión (borra clienteId también)
+        session.invalidate();           // Invalida toda la sesión
         return "redirect:/login?logout";
     }
 }
