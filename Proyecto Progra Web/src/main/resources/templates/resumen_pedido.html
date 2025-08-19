@@ -1,46 +1,123 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>Resumen del Pedido</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Resumen del Pedido</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+    }
 
-        <h1>Resumen del Pedido</h1>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text);
+    }
 
-        <p th:text="'Pedido confirmado con éxito el día: ' + ${pedido.fecha}"></p>
-        <p><strong>Dirección de envío:</strong> <span th:text="${pedido.direccionEnvio}"></span></p>
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+    }
 
-        <table border="1" cellpadding="5" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio Unitario</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="detalle : ${pedido.detalles}">
-                    <td th:text="${detalle.producto.nombre}"></td>
-                    <td th:text="${#numbers.formatDecimal(detalle.precioUnitario, 1, 'COMMA', 2, 'POINT')}"></td>
-                    <td th:text="${detalle.cantidad}"></td>
-                    <td th:text="${#numbers.formatDecimal(detalle.precioUnitario * detalle.cantidad, 1, 'COMMA', 2, 'POINT')}"></td>
-                </tr>
-            </tbody>
-        </table>
+    h1 {
+      color: var(--surface);
+      margin-bottom: 15px;
+    }
 
-        <p>
-            <strong>Total: </strong>
-            <span th:text="${#numbers.formatDecimal(#lists.sum(pedido.detalles.^[precioUnitario * cantidad]), 1, 'COMMA', 2, 'POINT')}">0.00</span>
-        </p>
+    p {
+      margin: 10px 0;
+    }
 
-        <a href="/productos">Volver a productos</a>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+      margin-bottom: 20px;
+    }
 
-    </body>
+    table th, table td {
+      border: 1px solid var(--muted);
+      padding: 12px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: var(--primary);
+      color: #fff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      color: var(--surface);
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      background-color: var(--secondary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--primary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Resumen del Pedido</h1>
+
+    <p th:text="'Pedido confirmado con éxito el día: ' + ${pedido.fecha}">Pedido confirmado con éxito el día: 01/01/2025</p>
+    <p><strong>Dirección de envío:</strong> <span th:text="${pedido.direccionEnvio}">Dirección de ejemplo</span></p>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio Unitario</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="detalle : ${pedido.detalles}">
+          <td th:text="${detalle.producto.nombre}">Producto</td>
+          <td>₡<span th:text="${#numbers.formatDecimal(detalle.precioUnitario, 1, 'COMMA', 2, 'POINT')}">0.00</span></td>
+          <td th:text="${detalle.cantidad}">1</td>
+          <td>₡<span th:text="${#numbers.formatDecimal(detalle.precioUnitario * detalle.cantidad, 1, 'COMMA', 2, 'POINT')}">0.00</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="total">
+      Total: ₡<span th:text="${#numbers.formatDecimal(#lists.sum(pedido.detalles.^[precioUnitario * cantidad]), 1, 'COMMA', 2, 'POINT')}">0.00</span>
+    </p>
+
+    <a href="/productos" class="btn">Volver a productos</a>
+  </div>
+</body>
 </html>

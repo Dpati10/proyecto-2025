@@ -1,87 +1,119 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Registro</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-        }
+  <meta charset="UTF-8">
+  <title>Registro de Cliente</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+      --error: #D9534F;
+      --success: #4CAF50;
+    }
 
-        .form-container {
-            background-color: #ffffff;
-            border: 2px solid #E1F25C;
-            border-radius: 15px;
-            padding: 30px 40px;
-            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-        }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--text);
+    }
 
-        h2 {
-            text-align: center;
-            color: #E1F25C;
-            margin-bottom: 20px;
-        }
+    .form-container {
+      background-color: #fff;
+      border: 2px solid var(--secondary);
+      border-radius: 15px;
+      padding: 30px 40px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      width: 100%;
+      max-width: 450px;
+    }
 
-        form p {
-            margin-bottom: 15px;
-        }
+    h2 {
+      text-align: center;
+      color: var(--surface);
+      margin-bottom: 25px;
+    }
 
-        input[type="text"],
-        input[type="email"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-        }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
 
-        button[type="submit"] {
-            background-color: #E1F25C;
-            border: none;
-            padding: 10px 20px;
-            font-weight: bold;
-            border-radius: 8px;
-            cursor: pointer;
-            width: 100%;
-            margin-top: 10px;
-        }
+    label {
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
 
-        button[type="submit"]:hover {
-            background-color: #d7e853;
-        }
+    input[type="text"],
+    input[type="email"],
+    input[type="password"] {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--muted);
+      border-radius: 8px;
+      font-size: 1em;
+      width: 100%;
+    }
 
-        .mensaje {
-            margin-top: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
+    button[type="submit"] {
+      background-color: var(--secondary);
+      border: none;
+      padding: 12px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 100%;
+    }
 
-        .error {
-            color: red;
-        }
+    button[type="submit"]:hover {
+      background-color: var(--primary);
+    }
 
-        .exito {
-            color: green;
-        }
-    </style>
+    .mensaje {
+      margin-top: 15px;
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .error {
+      color: var(--error);
+    }
+
+    .exito {
+      color: var(--success);
+    }
+  </style>
 </head>
 <body>
-<div class="form-container">
+  <div class="form-container">
     <h2>Registro de Cliente</h2>
 
     <form th:action="@{/registro}" th:object="${cliente}" method="post">
-        <p>Nombre: <input type="text" th:field="*{nombre}" required/></p>
-        <p>Correo: <input type="email" th:field="*{correo}" required/></p>
-        <p>Contraseña: <input type="password" th:field="*{contrasena}" required/></p>
-        <button type="submit">Registrarse</button>
+      <label>Nombre:</label>
+      <input type="text" th:field="*{nombre}" required/>
+
+      <label>Correo:</label>
+      <input type="email" th:field="*{correo}" required/>
+
+      <label>Contraseña:</label>
+      <input type="password" th:field="*{contrasena}" required/>
+
+      <button type="submit">Registrarse</button>
     </form>
 
-    <div th:if="${error}" class="mensaje error">[[${error}]]</div>
+    <div th:if="${error}" class="mensaje error" th:text="${error}"></div>
     <div th:if="${param.exito}" class="mensaje exito">¡Registro exitoso!</div>
-</div>
+  </div>
 </body>
 </html>

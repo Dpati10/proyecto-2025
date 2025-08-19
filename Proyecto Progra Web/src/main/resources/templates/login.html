@@ -1,42 +1,141 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Iniciar sesión</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body class="bg-light">
+<head>
+  <meta charset="UTF-8">
+  <title>Iniciar sesión</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+      --error: #D9534F;
+    }
 
-        <div class="container mt-5">
-            <div class="row justify-content-center">
-                <div class="col-md-6">
-                    <div class="card shadow">
-                        <div class="card-header bg-primary text-white text-center">
-                            <h4>Iniciar sesión como Cliente</h4>
-                        </div>
-                        <div class="card-body">
-                            <form th:action="@{/login}" method="post" th:object="${cliente}">
-                                <div class="mb-3">
-                                    <label for="correo" class="form-label">Correo electrónico</label>
-                                    <input type="email" class="form-control" id="correo" th:field="*{correo}" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="contrasena" class="form-label">Contraseña</label>
-                                    <input type="password" class="form-control" id="contrasena" th:field="*{contrasena}" required>
-                                </div>
-                                <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
-                                <div class="d-grid">
-                                    <button type="submit" class="btn btn-primary">Ingresar</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="card-footer text-center text-muted">
-                            ¿No tienes cuenta? <a href="/registro">Regístrate aquí</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: var(--text);
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+      width: 100%;
+      max-width: 450px;
+    }
+
+    .card-header {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 15px;
+      text-align: center;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    .card-body {
+      padding: 25px;
+    }
+
+    .form-group {
+      margin-bottom: 15px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input[type="email"],
+    input[type="password"] {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid var(--muted);
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 12px;
+      background-color: var(--secondary);
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--primary);
+    }
+
+    .card-footer {
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      color: var(--muted);
+      border-top: 1px solid #eee;
+    }
+
+    .card-footer a {
+      color: var(--secondary);
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .card-footer a:hover {
+      color: var(--primary);
+    }
+
+    .alert {
+      color: #fff;
+      background-color: var(--error);
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 15px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <div class="card-header">
+      Iniciar sesión como Cliente
+    </div>
+    <div class="card-body">
+      <form th:action="@{/login}" method="post" th:object="${cliente}">
+        <div class="form-group">
+          <label for="correo">Correo electrónico</label>
+          <input type="email" id="correo" th:field="*{correo}" required>
         </div>
-
-    </body>
+        <div class="form-group">
+          <label for="contrasena">Contraseña</label>
+          <input type="password" id="contrasena" th:field="*{contrasena}" required>
+        </div>
+        <div th:if="${error}" class="alert" th:text="${error}"></div>
+        <button type="submit" class="btn">Ingresar</button>
+      </form>
+    </div>
+    <div class="card-footer">
+      ¿No tienes cuenta? <a href="/registro">Regístrate aquí</a>
+    </div>
+  </div>
+</body>
 </html>

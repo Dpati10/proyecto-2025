@@ -1,40 +1,138 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Listado de Productos</title>
-    <link rel="stylesheet" href="/css/styles.css">
+  <meta charset="UTF-8">
+  <title>Listado de Productos</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+    }
+
+    h1 {
+      color: var(--surface);
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      background-color: var(--secondary);
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--primary);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    table th, table td {
+      border: 1px solid var(--muted);
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table th {
+      background-color: var(--primary);
+      color: #fff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .actions a {
+      margin: 0 5px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .actions .edit {
+      background-color: var(--secondary);
+    }
+
+    .actions .edit:hover {
+      background-color: var(--primary);
+    }
+
+    .actions .delete {
+      background-color: var(--muted);
+    }
+
+    .actions .delete:hover {
+      background-color: var(--surface);
+    }
+  </style>
 </head>
 <body>
-<h1>Listado de Productos</h1>
+  <div class="container">
+    <h1>Listado de Productos</h1>
 
-<a th:href="@{/productos/nuevo}">➕ Agregar Producto</a>
+    <a th:href="@{/productos/nuevo}" class="btn">➕ Agregar Producto</a>
 
-<table border="1">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Nombre</th>
-        <th>Descripción</th>
-        <th>Precio</th>
-        <th>Stock</th>
-        <th>Acciones</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr th:each="producto : ${productos}">
-        <td th:text="${producto.id}"></td>
-        <td th:text="${producto.nombre}"></td>
-        <td th:text="${producto.descripcion}"></td>
-        <td th:text="${producto.precio}"></td>
-        <td th:text="${producto.stock}"></td>
-        <td>
-            <a th:href="@{/productos/editar/{id}(id=${producto.id})}">✏ Editar</a>
-            |
-            <a th:href="@{/productos/eliminar/{id}(id=${producto.id})}">❌ Eliminar</a>
-        </td>
-    </tr>
-    </tbody>
-</table>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nombre</th>
+          <th>Descripción</th>
+          <th>Precio</th>
+          <th>Stock</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="producto : ${productos}">
+          <td th:text="${producto.id}">1</td>
+          <td th:text="${producto.nombre}">Producto</td>
+          <td th:text="${producto.descripcion}">Descripción</td>
+          <td th:text="${producto.precio}">0.00</td>
+          <td th:text="${producto.stock}">0</td>
+          <td class="actions">
+            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="edit">✏ Editar</a>
+            <a th:href="@{/productos/eliminar/{id}(id=${producto.id})}" class="delete">❌ Eliminar</a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </body>
 </html>

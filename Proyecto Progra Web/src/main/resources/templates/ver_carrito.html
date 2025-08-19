@@ -1,69 +1,175 @@
 <!DOCTYPE html>
-<!--
-Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
-Click nbfs://nbhost/SystemFileSystem/Templates/Other/html.html to edit this template
--->
-<html>
-    <head>
-        <title>Carrito de Compras</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <h1>Carrito de Compras</h1>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Carrito de Compras</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+      --success: #4CAF50;
+      --error: #D9534F;
+    }
 
-        <table border="1" cellpadding="5" cellspacing="0">
-            <thead>
-                <tr>
-                    <th>Producto</th>
-                    <th>Precio Unitario</th>
-                    <th>Cantidad</th>
-                    <th>Subtotal</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="item : ${carrito}">
-                    <td th:text="${item.producto.nombre}">Nombre Producto</td>
-                    <td th:text="${#numbers.formatDecimal(item.producto.precio, 1, 'COMMA', 2, 'POINT')}">0.00</td>
-                    <td>
-                        <form th:action="@{/carrito/modificar}" method="post">
-                            <input type="hidden" name="id" th:value="${item.producto.id}" />
-                            <input type="number" name="cantidad" th:value="${item.cantidad}" min="1" />
-                            <button type="submit">Actualizar</button>
-                        </form>
-                    </td>
-                    <td th:text="${#numbers.formatDecimal(item.total, 1, 'COMMA', 2, 'POINT')}">0.00</td>
-                    <td>
-                        <form th:action="@{/carrito/modificar}" method="post">
-                            <input type="hidden" name="id" th:value="${item.producto.id}" />
-                            <input type="hidden" name="cantidad" value="0" />
-                            <button type="submit">Eliminar</button>
-                        </form>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text);
+    }
 
-        <p>
-            <strong>Total: </strong>
-            <span th:text="${#numbers.formatDecimal(#lists.sum(carrito.^[total]), 1, 'COMMA', 2, 'POINT')}">0.00</span>
-        </p>
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+    }
 
-        <form th:action="@{/carrito/vaciar}" method="post">
-            <button type="submit">Vaciar Carrito</button>
-        </form>
+    h1, h2 {
+      color: var(--surface);
+      margin-bottom: 15px;
+    }
 
-        <h2>Confirmar Pedido</h2>
-        <form th:action="@{/pedido/confirmar}" method="post">
-            <label for="direccion">Dirección de Envío:</label><br/>
-            <textarea id="direccion" name="direccion" rows="3" cols="40" required></textarea><br/><br/>
-            <button type="submit">Confirmar Pedido</button>
-        </form>
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
 
-        <p th:if="${mensaje}" th:text="${mensaje}" style="color:green;"></p>
+    table th, table td {
+      border: 1px solid var(--muted);
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
 
-        <a href="/productos">Seguir comprando</a>
+    table th {
+      background-color: var(--primary);
+      color: #fff;
+    }
 
-    </body>
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    input[type="number"],
+    textarea {
+      padding: 8px;
+      border: 1px solid var(--muted);
+      border-radius: 6px;
+      width: 80px;
+    }
+
+    textarea {
+      width: 100%;
+      resize: vertical;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 10px 20px;
+      margin: 5px 0;
+      border-radius: 8px;
+      font-weight: bold;
+      text-decoration: none;
+      color: #fff;
+      border: none;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary { background-color: var(--secondary); }
+    .btn-primary:hover { background-color: var(--primary); }
+
+    .btn-delete { background-color: var(--error); }
+    .btn-delete:hover { background-color: #a2332d; }
+
+    .btn-success { background-color: var(--success); }
+    .btn-success:hover { background-color: #3e8e41; }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      color: var(--surface);
+      margin-bottom: 20px;
+    }
+
+    .mensaje {
+      margin-top: 15px;
+      font-weight: bold;
+      color: var(--success);
+    }
+
+    form {
+      display: inline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Carrito de Compras</h1>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Producto</th>
+          <th>Precio Unitario</th>
+          <th>Cantidad</th>
+          <th>Subtotal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="item : ${carrito}">
+          <td th:text="${item.producto.nombre}">Nombre Producto</td>
+          <td>₡<span th:text="${#numbers.formatDecimal(item.producto.precio, 1, 'COMMA', 2, 'POINT')}">0.00</span></td>
+          <td>
+            <form th:action="@{/carrito/modificar}" method="post">
+              <input type="hidden" name="id" th:value="${item.producto.id}" />
+              <input type="number" name="cantidad" th:value="${item.cantidad}" min="1" />
+              <button type="submit" class="btn btn-primary">Actualizar</button>
+            </form>
+          </td>
+          <td>₡<span th:text="${#numbers.formatDecimal(item.total, 1, 'COMMA', 2, 'POINT')}">0.00</span></td>
+          <td>
+            <form th:action="@{/carrito/modificar}" method="post">
+              <input type="hidden" name="id" th:value="${item.producto.id}" />
+              <input type="hidden" name="cantidad" value="0" />
+              <button type="submit" class="btn btn-delete">Eliminar</button>
+            </form>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="total">
+      Total: ₡<span th:text="${#numbers.formatDecimal(#lists.sum(carrito.^[total]), 1, 'COMMA', 2, 'POINT')}">0.00</span>
+    </p>
+
+    <form th:action="@{/carrito/vaciar}" method="post">
+      <button type="submit" class="btn btn-delete">Vaciar Carrito</button>
+    </form>
+
+    <h2>Confirmar Pedido</h2>
+    <form th:action="@{/pedido/confirmar}" method="post">
+      <label for="direccion">Dirección de Envío:</label><br/>
+      <textarea id="direccion" name="direccion" rows="3" required></textarea><br/><br/>
+      <button type="submit" class="btn btn-success">Confirmar Pedido</button>
+    </form>
+
+    <div th:if="${mensaje}" class="mensaje" th:text="${mensaje}"></div>
+
+    <a href="/productos" class="btn btn-primary" style="margin-top:15px; display:inline-block;">Seguir comprando</a>
+  </div>
+</body>
 </html>

@@ -1,31 +1,122 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title th:text="${producto.id} != null ? 'Editar Producto' : 'Nuevo Producto'">Formulario Producto</title>
+  <meta charset="UTF-8">
+  <title th:text="${producto.id} != null ? 'Editar Producto' : 'Nuevo Producto'">Formulario Producto</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 40px auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+    }
+
+    h1 {
+      color: var(--surface);
+      text-align: center;
+      margin-bottom: 25px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    label {
+      margin-bottom: 5px;
+      font-weight: 600;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      padding: 10px;
+      margin-bottom: 15px;
+      border: 1px solid var(--muted);
+      border-radius: 8px;
+      font-size: 1em;
+    }
+
+    .btn {
+      padding: 12px;
+      border: none;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      color: #fff;
+      transition: background-color 0.3s ease;
+      margin-top: 10px;
+    }
+
+    .btn-primary {
+      background-color: var(--secondary);
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary);
+    }
+
+    .btn-cancel {
+      background-color: var(--muted);
+    }
+
+    .btn-cancel:hover {
+      background-color: var(--surface);
+    }
+
+    .buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+    }
+  </style>
 </head>
 <body>
-<h1 th:text="${producto.id} != null ? 'Editar Producto' : 'Nuevo Producto'"></h1>
+  <div class="container">
+    <h1 th:text="${producto.id} != null ? 'Editar Producto' : 'Nuevo Producto'">Formulario Producto</h1>
 
-<form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
-    <input type="hidden" th:field="*{id}"/>
+    <form th:action="@{/productos/guardar}" th:object="${producto}" method="post">
+      <input type="hidden" th:field="*{id}"/>
 
-    <label>Nombre:</label>
-    <input type="text" th:field="*{nombre}" required/><br/>
+      <label>Nombre:</label>
+      <input type="text" th:field="*{nombre}" required/>
 
-    <label>Descripción:</label>
-    <input type="text" th:field="*{descripcion}" required/><br/>
+      <label>Descripción:</label>
+      <input type="text" th:field="*{descripcion}" required/>
 
-    <label>Precio:</label>
-    <input type="number" th:field="*{precio}" step="0.01" required/><br/>
+      <label>Precio:</label>
+      <input type="number" th:field="*{precio}" step="0.01" required/>
 
-    <label>Stock:</label>
-    <input type="number" th:field="*{stock}" required/><br/>
+      <label>Stock:</label>
+      <input type="number" th:field="*{stock}" required/>
 
-    <button type="submit">Guardar</button>
-    <a th:href="@{/productos}">Cancelar</a>
-</form>
-
+      <div class="buttons">
+        <button type="submit" class="btn btn-primary">Guardar</button>
+        <a th:href="@{/productos}" class="btn btn-cancel">Cancelar</a>
+      </div>
+    </form>
+  </div>
 </body>
 </html>
-

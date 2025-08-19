@@ -3,7 +3,94 @@
 <head>
   <meta charset="UTF-8"/>
   <title>Detalle del Pedido</title>
-  <link rel="stylesheet" th:href="@{/css/orders.css}">
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;   /* Fondo de la página en blanco */
+      --text: #333333;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 20px;
+      color: var(--text);
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      background-color: #fff;
+      padding: 25px;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+    }
+
+    h1 {
+      color: var(--surface);
+      margin-bottom: 10px;
+    }
+
+    h3 {
+      color: var(--secondary);
+      margin-top: 25px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 5px;
+    }
+
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+
+    .orders-table th, 
+    .orders-table td {
+      border: 1px solid var(--muted);
+      padding: 12px;
+      text-align: center;
+    }
+
+    .orders-table th {
+      background-color: var(--primary);
+      color: #fff;
+    }
+
+    .orders-table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    .total {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: right;
+      color: var(--surface);
+      margin-top: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: var(--secondary);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 8px;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background-color: var(--primary);
+    }
+  </style>
 </head>
 <body>
   <div class="container">

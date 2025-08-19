@@ -1,43 +1,158 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
-    <head>
-        <meta charset="UTF-8">
-        <title>Panel del Cliente</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body>
+<head>
+  <meta charset="UTF-8">
+  <title>Panel del Cliente</title>
+  <style>
+    :root {
+      --primary: #D3CB39;
+      --secondary: #B1AA30;
+      --accent: #DBD33B;
+      --muted: #99979C;
+      --surface: #6D691D;
+      --bg: #ffffff;
+      --text: #333333;
+    }
 
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#">Mi Tienda</a>
-                <div class="d-flex">
-                    <a class="btn btn-outline-light" href="/logout">Cerrar sesión</a>
-                </div>
-            </div>
-        </nav>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      margin: 0;
+      padding: 0;
+      color: var(--text);
+    }
 
-        <div class="container mt-5">
-            <!-- Aquí corregimos para usar ${cliente} -->
-            <h2 class="mb-4">Bienvenido, <span th:text="${cliente.nombre}"></span></h2>
+    .navbar {
+      background-color: var(--surface);
+      padding: 15px 25px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      color: #fff;
+    }
 
-            <div class="card">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0">Tus Pedidos</h5>
-                </div>
-                <div class="card-body p-0">
-                    <table class="table table-striped mb-0">
-                        <thead class="table-light">
-                            <tr>
-                                <th>ID</th>
-                                <th>Fecha</th>
-                                <th>Dirección de Envío</th>
-                                <th>Productos</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr th:each="pedido : ${pedidos}">
-                                <td th:text="${pedido.id}"></td>
-                                <td th:text="${pedido.fecha}"></td>
-                                <td th:text="${pedido.direccionEnvio}"></td>
-                                <td>
-                                    <ul class="mb-0">
+    .navbar a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: bold;
+      margin-left: 10px;
+      padding: 8px 15px;
+      border-radius: 6px;
+      border: 2px solid #fff;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      background-color: var(--primary);
+      color: #fff;
+      border-color: var(--primary);
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 40px auto;
+      padding: 0 15px;
+    }
+
+    h2 {
+      margin-bottom: 25px;
+      color: var(--surface);
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      border: 2px solid var(--secondary);
+      margin-bottom: 30px;
+    }
+
+    .card-header {
+      background-color: var(--primary);
+      color: #fff;
+      padding: 15px;
+      font-weight: bold;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .card-body {
+      padding: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 0;
+    }
+
+    table th, table td {
+      border: 1px solid var(--muted);
+      padding: 12px;
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    table th {
+      background-color: var(--secondary);
+      color: #fff;
+    }
+
+    table tr:nth-child(even) {
+      background-color: #f9f9f9;
+    }
+
+    ul {
+      list-style: none;
+      padding-left: 0;
+      margin: 0;
+    }
+
+    ul li {
+      margin-bottom: 5px;
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="brand">Mi Tienda</div>
+    <div>
+      <a href="/logout">Cerrar sesión</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2>Bienvenido, <span th:text="${cliente.nombre}">Usuario</span></h2>
+
+    <div class="card">
+      <div class="card-header">
+        Tus Pedidos
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Fecha</th>
+              <th>Dirección de Envío</th>
+              <th>Productos</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="pedido : ${pedidos}">
+              <td th:text="${pedido.id}">1</td>
+              <td th:text="${#temporals.format(pedido.fecha,'dd/MM/yyyy HH:mm')}">01/01/2025</td>
+              <td th:text="${pedido.direccionEnvio}">Dirección</td>
+              <td>
+                <ul>
+                  <li th:each="d : ${pedido.detalles}" th:text="${d.cantidad} + ' x ' + ${d.nombreProducto}">1 x Producto</li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
