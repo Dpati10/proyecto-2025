@@ -1,138 +1,237 @@
 <!DOCTYPE html>
+<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Listado de Productos</title>
-  <style>
-    :root {
-      --primary: #D3CB39;
-      --secondary: #B1AA30;
-      --accent: #DBD33B;
-      --muted: #99979C;
-      --surface: #6D691D;
-      --bg: #ffffff;
-      --text: #333333;
-    }
+    <head>
+        <meta charset="UTF-8">
+        <title>Listado de Productos</title>
+        <style>
+            :root {
+                --primary: #D3CB39;
+                --secondary: #B1AA30;
+                --accent: #DBD33B;
+                --muted: #99979C;
+                --surface: #6D691D;
+                --bg: #ffffff;
+                --text: #333333;
+            }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: var(--bg);
-      margin: 0;
-      padding: 20px;
-      color: var(--text);
-    }
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: var(--bg);
+                margin: 0;
+                padding: 20px;
+                color: var(--text);
+            }
 
-    .container {
-      max-width: 1000px;
-      margin: 40px auto;
-      background-color: #fff;
-      padding: 25px;
-      border-radius: 12px;
-      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
-      border: 2px solid var(--secondary);
-    }
+            .container {
+                max-width: 1000px;
+                margin: 40px auto;
+                background-color: #fff;
+                padding: 25px;
+                border-radius: 12px;
+                box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+                border: 2px solid var(--secondary);
+            }
 
-    h1 {
-      color: var(--surface);
-      text-align: center;
-      margin-bottom: 20px;
-    }
+            h1 {
+                color: var(--surface);
+                text-align: center;
+                margin-bottom: 20px;
+            }
 
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      font-weight: bold;
-      text-decoration: none;
-      color: #fff;
-      background-color: var(--secondary);
-      transition: background-color 0.3s ease;
-    }
+            .btn {
+                display: inline-block;
+                padding: 10px 20px;
+                margin-bottom: 20px;
+                border-radius: 8px;
+                font-weight: bold;
+                text-decoration: none;
+                color: #fff;
+                background-color: var(--secondary);
+                transition: background-color 0.3s ease;
+                cursor: pointer;
+            }
 
-    .btn:hover {
-      background-color: var(--primary);
-    }
+            .btn:hover {
+                background-color: var(--primary);
+            }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+            }
 
-    table th, table td {
-      border: 1px solid var(--muted);
-      padding: 12px;
-      text-align: center;
-      vertical-align: middle;
-    }
+            table th, table td {
+                border: 1px solid var(--muted);
+                padding: 12px;
+                text-align: center;
+                vertical-align: middle;
+            }
 
-    table th {
-      background-color: var(--primary);
-      color: #fff;
-    }
+            table th {
+                background-color: var(--primary);
+                color: #fff;
+            }
 
-    table tr:nth-child(even) {
-      background-color: #f9f9f9;
-    }
+            table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
 
-    .actions a {
-      margin: 0 5px;
-      padding: 6px 12px;
-      border-radius: 6px;
-      text-decoration: none;
-      color: #fff;
-      font-weight: bold;
-      transition: background-color 0.3s ease;
-    }
+            .actions a {
+                margin: 0 5px;
+                padding: 6px 12px;
+                border-radius: 6px;
+                text-decoration: none;
+                color: #fff;
+                font-weight: bold;
+                transition: background-color 0.3s ease;
+                cursor: pointer;
+            }
 
-    .actions .edit {
-      background-color: var(--secondary);
-    }
+            .actions .edit {
+                background-color: var(--secondary);
+            }
 
-    .actions .edit:hover {
-      background-color: var(--primary);
-    }
+            .actions .edit:hover {
+                background-color: var(--primary);
+            }
 
-    .actions .delete {
-      background-color: var(--muted);
-    }
+            .actions .delete {
+                background-color: var(--muted);
+            }
 
-    .actions .delete:hover {
-      background-color: var(--surface);
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <h1>Listado de Productos</h1>
+            .actions .delete:hover {
+                background-color: var(--surface);
+            }
 
-    <a th:href="@{/productos/nuevo}" class="btn">➕ Agregar Producto</a>
+            /* Modal */
+            .modal {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0,0,0,0.5);
+                justify-content: center;
+                align-items: center;
+            }
 
-    <table>
-      <thead>
-        <tr>
-          <th>ID</th>
-          <th>Nombre</th>
-          <th>Descripción</th>
-          <th>Precio</th>
-          <th>Stock</th>
-          <th>Acciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="producto : ${productos}">
-          <td th:text="${producto.id}">1</td>
-          <td th:text="${producto.nombre}">Producto</td>
-          <td th:text="${producto.descripcion}">Descripción</td>
-          <td th:text="${producto.precio}">0.00</td>
-          <td th:text="${producto.stock}">0</td>
-          <td class="actions">
-            <a th:href="@{/productos/editar/{id}(id=${producto.id})}" class="edit">✏ Editar</a>
-            <a th:href="@{/productos/eliminar/{id}(id=${producto.id})}" class="delete">❌ Eliminar</a>
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</body>
+            .modal-content {
+                background: #fff;
+                padding: 20px;
+                border-radius: 12px;
+                width: 400px;
+                text-align: left;
+                box-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            }
+
+            .modal-content h2 {
+                margin-top: 0;
+                color: var(--surface);
+            }
+
+            .modal-content input {
+                width: 100%;
+                padding: 8px;
+                margin: 6px 0;
+                border: 1px solid var(--muted);
+                border-radius: 6px;
+            }
+
+            .modal-content .btn {
+                width: 100%;
+                margin-top: 10px;
+                text-align: center;
+            }
+
+            .close {
+                float: right;
+                font-size: 20px;
+                cursor: pointer;
+                color: var(--muted);
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <h1>Listado de Productos</h1>
+
+            <button class="btn" onclick="openModal()">➕ Agregar Producto</button>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Nombre</th>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="producto : ${productos}">
+                        <td th:text="${producto.id}">1</td>
+                        <td th:text="${producto.nombre}">Producto</td>
+                        <td th:text="${producto.descripcion}">Descripción</td>
+                        <td th:text="${producto.precio}">0.00</td>
+                        <td th:text="${producto.stock}">0</td>
+                        <td class="actions">
+                            <a href="javascript:void(0)" class="edit"
+                               th:attr="onclick=|editProduct('${producto.id}', '${producto.nombre}', '${producto.descripcion}', '${producto.precio}', '${producto.stock}')|">✏ Editar</a>
+                            <a th:href="@{/productos/eliminar/{id}(id=${producto.id})}" class="delete">❌ Eliminar</a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Modal para agregar/editar producto -->
+        <div class="modal" id="productModal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <h2 id="modalTitle">Agregar Producto</h2>
+                <form th:action="@{/productos/guardar}" method="post">
+                    <input type="hidden" id="id" name="id">
+                    <label>Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required>
+                    <label>Descripción:</label>
+                    <input type="text" id="descripcion" name="descripcion" required>
+                    <label>Precio:</label>
+                    <input type="number" step="0.01" id="precio" name="precio" required>
+                    <label>Stock:</label>
+                    <input type="number" id="stock" name="stock" required>
+                    <button type="submit" class="btn">💾 Guardar</button>
+                </form>
+            </div>
+        </div>
+
+        <script>
+            function openModal() {
+            document.getElementById('modalTitle').innerText = "Agregar Producto";
+            document.getElementById('id').value = "";
+            document.getElementById('nombre').value = "";
+            document.getElementById('descripcion').value = "";
+            document.getElementById('precio').value = "";
+            document.getElementById('stock').value = "";
+            document.getElementById('productModal').style.display = "flex";
+            }
+
+            function editProduct(id, nombre, descripcion, precio, stock) {
+            document.getElementById('modalTitle').innerText = "Editar Producto";
+            document.getElementById('id').value = id;
+            document.getElementById('nombre').value = nombre;
+            document.getElementById('descripcion').value = descripcion;
+            document.getElementById('precio').value = precio;
+            document.getElementById('stock').value = stock;
+            document.getElementById('productModal').style.display = "flex";
+            }
+
+            function closeModal() {
+            document.getElementById('productModal').style.display = "none";
+            }
+        </script>
+    </body>
 </html>
+

@@ -1,20 +1,13 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-
-package com.proyecto.service;
+package com.proyecto.service.impl;
 
 import com.proyecto.entity.Producto;
 import com.proyecto.repository.ProductoRepository;
+import com.proyecto.service.ProductoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-/**
- *
- * @author diego
- */
+
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
@@ -44,4 +37,3 @@ public class ProductoServiceImpl implements ProductoService {
         productoRepository.deleteById(id);
     }
 }
-
