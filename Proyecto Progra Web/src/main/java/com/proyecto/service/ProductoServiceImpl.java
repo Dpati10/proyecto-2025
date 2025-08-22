@@ -1,8 +1,7 @@
-package com.proyecto.service.impl;
+package com.proyecto.service;
 
 import com.proyecto.entity.Producto;
 import com.proyecto.repository.ProductoRepository;
-import com.proyecto.service.ProductoService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

@@ -17,10 +17,11 @@ public class ProductoController {
     }
 
     @GetMapping
-    public String listar(Model model) {
-        model.addAttribute("productos", productoService.listarTodos());
-        return "producto-list"; 
-    }
+public String listar(Model model) {
+    model.addAttribute("productos", productoService.listarTodos());
+    model.addAttribute("producto", new Producto()); // 👈 necesario para formulario
+    return "producto-list"; 
+}
 
 
     @PostMapping("/guardar")
