@@ -124,6 +124,36 @@
   <div class="container">
     <h2>Bienvenido, <span th:text="${cliente.nombre}">Usuario</span></h2>
 
+    <!-- 🔹 Sección de productos disponibles -->
+    <div class="card">
+      <div class="card-header">
+        Productos Disponibles
+      </div>
+      <div class="card-body">
+        <table>
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nombre</th>
+              <th>Descripción</th>
+              <th>Precio</th>
+              <th>Stock</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="producto : ${productos}">
+              <td th:text="${producto.id}">1</td>
+              <td th:text="${producto.nombre}">Producto</td>
+              <td th:text="${producto.descripcion}">Descripción</td>
+              <td th:text="${producto.precio}">100.00</td>
+              <td th:text="${producto.stock}">10</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 🔹 Sección de pedidos -->
     <div class="card">
       <div class="card-header">
         Tus Pedidos

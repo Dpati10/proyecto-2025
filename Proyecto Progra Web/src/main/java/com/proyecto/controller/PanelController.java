@@ -2,7 +2,9 @@ package com.proyecto.controller;
 
 import com.proyecto.domain.Cliente;
 import com.proyecto.entity.Pedido;
+import com.proyecto.entity.Producto;
 import com.proyecto.service.PedidoService;
+import com.proyecto.service.ProductoService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +19,21 @@ public class PanelController {
     @Autowired
     private PedidoService pedidoService;
 
+    @Autowired
+    private ProductoService productoService;
+
     @GetMapping("/panel")
     public String panelUsuario(HttpSession session, Model model) {
         Cliente cliente = (Cliente) session.getAttribute("cliente");
         if (cliente == null) {
             return "redirect:/login";
         }
-        model.addAttribute("cliente", cliente); // aseguramos que esté en el modelo
+        model.addAttribute("cliente", cliente);
+
+        // ✅ Agregamos lista de productos al panel
+        List<Producto> productos = productoService.listarTodos();
+        model.addAttribute("productos", productos);
+
         return "panel";
     }
 
@@ -34,6 +44,11 @@ public class PanelController {
             return "redirect:/login";
         }
         model.addAttribute("cliente", cliente);
+
+        // ✅ Agregamos lista de productos al panel de usuario
+        List<Producto> productos = productoService.listarTodos();
+        model.addAttribute("productos", productos);
+
         return "usuario/panel";
     }
 
